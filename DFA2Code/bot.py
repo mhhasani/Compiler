@@ -33,7 +33,7 @@ def new_dfa(update: Update, context):
     update.message.reply_text(dfa.generate_dfa_code_cpp())
     
 def main():
-    updater = Updater("6167343455:AAFUNe4or98G1x3adbTG5v_uU7MbqsYjHl8", use_context=True)
+    updater = Updater("6167343455:AAFUNe4or98G1x3adbTG5v_uU7MbqsYjHl8")
 
     dispatcher = updater.dispatcher
 
