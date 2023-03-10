@@ -11,6 +11,7 @@ from telegram.ext import (Updater,
 from main import DFA
 
 def start(update: Update, context):
+    print("start")
     update.message.reply_text("please send your dfa in the following format:\nstates\ninitial\naccepting\nalphabet\ntransitions\n\nfor example:\nq0 q1 q2 q3\nq0\nq3\n0 1\nq0:0>q0\nq0:1>q1\nq1:0>q2\nq1:1>q0\nq2:0>q3\nq2:1>q1\nq3:0>q2\nq3:1>q0")
 
 def new_dfa(update: Update, context):
