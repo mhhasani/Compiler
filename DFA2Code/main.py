@@ -5,10 +5,17 @@ class DFA:
     def __init__(self, alphabet, states, transitions, start_state, accepting_states):
         self.alphabet = alphabet
         self.states = states
+        self.numeric_states = [i for i in range(len(states))]
         self.transitions = transitions
+        self.transitions_with_numeric_states = {}
+        for (state, symbol), next_state in self.transitions.items():
+            self.transitions_with_numeric_states[(self.states.index(state), symbol)] = self.states.index(next_state)
         self.start_state = start_state
+        self.numeric_start_state = self.states.index(start_state)
         self.accepting_states = accepting_states
+        self.numeric_accepting_states = [self.states.index(state) for state in accepting_states]
         self.dfa_code = self.generate_dfa_code()
+        self.dfa_code_cpp = self.generate_dfa_code_cpp()
         self.dfa_graph = self.generate_dfa_graph()
         
     def generate_dfa_code(self):
@@ -42,7 +49,53 @@ class DFA:
         return code
     
     
+    def generate_dfa_code_cpp(self):
+        code = [
+            f"#include <iostream>",
+            f"#include <string>",
+            f"using namespace std;",
+            f"",
+            f"int main() {{",
+            f"    string input_string;",
+            f"    cout << \"Enter a string: \";",
+            f"    cin >> input_string;",
+            f"",
+            f"    int current_state = {self.numeric_start_state};",
+            f"    for (char symbol : input_string) {{",
+            f"        switch (current_state) {{",
+        ]
+
+        for state in self.numeric_states:
+            code.append(f"            case {state}:")
+            for symbol in self.alphabet:
+                if (state, symbol) in self.transitions_with_numeric_states:
+                    code.append(f"                if (symbol == '{symbol}') current_state = {self.transitions_with_numeric_states.get((state, symbol))};")
+            code.append(f"                break;")
+        
+        code.append(f"        }}")
+        code.append(f"    }}")
+
+        code.append(f"    if (")
+        for state in self.numeric_accepting_states:
+            code.append(f"        current_state == {state} ||")
+        code[-1] = code[-1][:-2]
+        code.append(f"    ) {{")
+        code.append(f"        cout << \"The string is accepted\" << endl;")
+        code.append(f"    }} else {{")
+        code.append(f"        cout << \"The string is not accepted\" << endl;")
+        code.append(f"    }}")
+        code.append(f"    return 0;")
+        code.append(f"}}")
+
+        code = "\n".join(code)
+
+        with open("dfa.cpp", "w") as f:
+            f.write(code)
+        
+        return code
+    
     def generate_dfa_graph(self):
+        # به صورت افقی
         dot = Digraph(comment='DFA')
         
         for state in self.states:
@@ -57,7 +110,7 @@ class DFA:
         dot.attr('node', shape='none')
         dot.edge('', self.start_state)
         
-        file = dot.render('dfa.gv', format='png')
+        file = dot.render('dfa', format='png')
         return file
 
 
