@@ -42,6 +42,10 @@ def new_dfa(update: Update, context):
         update.message.reply_text("wrong format!\nplease send your dfa in the following format:\nstates\ninitial\naccepting\nalphabet\ntransitions\n\nfor example:\nq0 q1 q2 q3\nq0\nq3\n0 1\nq0:0>q0\nq0:1>q1\nq1:0>q2\nq1:1>q0\nq2:0>q3\nq2:1>q1\nq3:0>q2\nq3:1>q0")
     
     
+def get_test_input(update: Update, context):
+    update.message.reply_text("please send your input:")
+    return 1    
+    
 def test_acceptance(update: Update, context):
     user_last_dfa_file = f"{update.message.from_user.id}.py"
     # check if user has last dfa
@@ -68,6 +72,13 @@ def main():
 
     dispatcher.add_handler(CommandHandler("start", start))
     dispatcher.add_handler(MessageHandler(Filters.text, new_dfa))
+    dispatcher.add_handler(ConversationHandler(
+        entry_points=[CommandHandler('test', get_test_input)],
+        states={
+            1: [MessageHandler(Filters.text, test_acceptance)]
+        },
+        fallbacks=[]
+    ))
 
     updater.start_polling()
     updater.idle()
