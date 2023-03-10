@@ -32,12 +32,20 @@ def new_dfa(update: Update, context):
     # send dfa cpp code
     update.message.reply_text(dfa.generate_dfa_code_cpp())
     
+def main():
+    updater = Updater("6167343455:AAFUNe4or98G1x3adbTG5v_uU7MbqsYjHl8")
 
-bot = Updater("6167343455:AAFUNe4or98G1x3adbTG5v_uU7MbqsYjHl8")
-bot.dispatcher.add_handler(CommandHandler("start", start))
-bot.dispatcher.add_handler(MessageHandler(Filters.text, new_dfa))
-bot.start_polling()
-bot.idle()
+    dispatcher = updater.dispatcher
+
+    dispatcher.add_handler(CommandHandler("start", start))
+    dispatcher.add_handler(MessageHandler(Filters.text, new_dfa))
+
+    updater.start_polling()
+    updater.idle()
+
+if __name__ == '__main__':
+    main()
+
 
 
 
