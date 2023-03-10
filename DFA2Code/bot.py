@@ -11,6 +11,24 @@ from telegram.ext import (Updater,
 from main import DFA
 import os
 
+class UserDFA:
+    def __init__(self, alphabet, states, start_state, accepting_states, transitions):
+        self.alphabet = alphabet
+        self.states = states
+        self.start_state = start_state
+        self.accepting_states = accepting_states
+        self.transitions = transitions
+
+    def run(self, input_string):
+        current_state = self.start_state
+        for symbol in input_string:
+            current_state = self.transitions.get((current_state, symbol))
+            if current_state is None:
+                return False
+        return current_state in self.accepting_states
+    
+users_dfa = {}
+    
 def start(update: Update, context):
     update.message.reply_text("please send your dfa in the following format:\nstates\ninitial\naccepting\nalphabet\ntransitions\n\nfor example:\nq0 q1 q2 q3\nq0\nq3\n0 1\nq0:0>q0\nq0:1>q1\nq1:0>q2\nq1:1>q0\nq2:0>q3\nq2:1>q1\nq3:0>q2\nq3:1>q0")
 
@@ -35,9 +53,9 @@ def new_dfa(update: Update, context):
         # send dfa cpp code
         cpp_code_file = open("dfa.cpp", "rb")
         update.message.reply_document(cpp_code_file)
-        # create last dfa python code of user
-        with open(f"dfa{update.message.from_user.id}.py", "w") as f:
-            f.write(dfa.generate_dfa_code())
+        # add dfa to user dfa list
+        users_dfa[update.message.from_user.id] = UserDFA(alphabet, states, initial, accepting, transitions)
+
     except:
         update.message.reply_text("wrong format!\nplease send your dfa in the following format:\nstates\ninitial\naccepting\nalphabet\ntransitions\n\nfor example:\nq0 q1 q2 q3\nq0\nq3\n0 1\nq0:0>q0\nq0:1>q1\nq1:0>q2\nq1:1>q0\nq2:0>q3\nq2:1>q1\nq3:0>q2\nq3:1>q0")
     
@@ -47,22 +65,15 @@ def get_test_input(update: Update, context):
     return 1    
     
 def test_acceptance(update: Update, context):
-    user_last_dfa_file = f"dfa{update.message.from_user.id}.py"
-    # check if user has last dfa
-    if os.path.exists(user_last_dfa_file):
-        # import user last dfa
-        import_code = f"from dfa{update.message.from_user.id} import DFA as UserDFA"
-        # execute import code
-        exec(import_code)
-        # create user dfa object
-        user_dfa = UserDFA()
-        # check if user input is accepted by dfa
-        if user_dfa.run(update.message.text):
+    input_string = update.message.text
+    user_dfa = users_dfa.get(update.message.from_user.id)
+    if user_dfa is None:
+        update.message.reply_text("please send your dfa first")
+    else:
+        if user_dfa.run(input_string):
             update.message.reply_text("accepted")
         else:
             update.message.reply_text("rejected")
-    else:
-        update.message.reply_text("please send your dfa first")
         
     return ConversationHandler.END
         
