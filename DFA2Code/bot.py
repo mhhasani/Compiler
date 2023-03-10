@@ -71,7 +71,6 @@ def main():
     dispatcher = updater.dispatcher
 
     dispatcher.add_handler(CommandHandler("start", start))
-    dispatcher.add_handler(MessageHandler(Filters.text, new_dfa))
     dispatcher.add_handler(ConversationHandler(
         entry_points=[CommandHandler('test', get_test_input)],
         states={
@@ -79,6 +78,8 @@ def main():
         },
         fallbacks=[]
     ))
+    dispatcher.add_handler(MessageHandler(Filters.text, new_dfa))
+
 
     updater.start_polling()
     updater.idle()
