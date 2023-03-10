@@ -51,7 +51,7 @@ def test_acceptance(update: Update, context):
     # check if user has last dfa
     if os.path.exists(user_last_dfa_file):
         # import user last dfa
-        import_code = f"from {user_last_dfa_file} import DFA as UserDFA"
+        import_code = f"from {update.message.from_user.id} import DFA as UserDFA"
         # execute import code
         exec(import_code)
         # create user dfa object
