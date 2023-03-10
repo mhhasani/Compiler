@@ -64,6 +64,8 @@ def test_acceptance(update: Update, context):
     else:
         update.message.reply_text("please send your dfa first")
         
+    return ConversationHandler.END
+        
         
 def main():
     updater = Updater("6167343455:AAFUNe4or98G1x3adbTG5v_uU7MbqsYjHl8")
