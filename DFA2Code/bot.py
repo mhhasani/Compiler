@@ -1,5 +1,14 @@
-from telegram.ext import Updater, CommandHandler, MessageHandler, filters, CallbackContext
-from telegram import Update
+from telegram import (Update,
+                      ParseMode,
+                      InlineKeyboardMarkup,
+                      InlineKeyboardButton)
+from telegram.ext import (Updater,
+                          CommandHandler,
+                          MessageHandler,
+                          Filters,
+                          CallbackContext,
+                          CallbackQueryHandler,
+                          ConversationHandler,)
 from main import DFA
 
 def start(update: Update, context: CallbackContext):
