@@ -6,15 +6,14 @@ from telegram.ext import (Updater,
                           CommandHandler,
                           MessageHandler,
                           Filters,
-                          CallbackContext,
                           CallbackQueryHandler,
                           ConversationHandler,)
 from main import DFA
 
-def start(update: Update, context: CallbackContext):
+def start(update: Update, context):
     update.message.reply_text("please send your dfa in the following format:\nstates\ninitial\naccepting\nalphabet\ntransitions\n\nfor example:\nq0 q1 q2 q3\nq0\nq3\n0 1\nq0:0>q0\nq0:1>q1\nq1:0>q2\nq1:1>q0\nq2:0>q3\nq2:1>q1\nq3:0>q2\nq3:1>q0")
 
-def new_dfa(update: Update, context: CallbackContext):
+def new_dfa(update: Update, context):
     dfa_data = update.message.text.split("\n")
     states = dfa_data[0].split()
     initial = dfa_data[1]
