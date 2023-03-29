@@ -13,7 +13,7 @@ import os
 
 TOKEN = "6167343455:AAFUNe4or98G1x3adbTG5v_uU7MbqsYjHl8"
 WEBHOOK_URL = f"https://ce99bot.herokuapp.com/{TOKEN}"
-PORT = os.environ.get('PORT', 5000)
+PORT = int(os.environ.get('PORT', 5000))
 
 class UserDFA:
     def __init__(self, alphabet, states, start_state, accepting_states, transitions):
