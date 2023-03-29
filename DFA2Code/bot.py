@@ -99,6 +99,8 @@ def main():
     # Set the webhook for the bot
     updater.start_webhook("0.0.0.0", PORT, TOKEN, webhook_url=WEBHOOK_URL)
     
+    updater.idle()
+    
 
 if __name__ == '__main__':
     main()
