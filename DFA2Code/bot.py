@@ -10,10 +10,11 @@ from telegram.ext import (Updater,
                           ConversationHandler,)
 from main import DFA
 import os
+import json
+from flask import Flask, request
 
 TOKEN = "6167343455:AAFUNe4or98G1x3adbTG5v_uU7MbqsYjHl8"
 WEBHOOK_URL = f"https://dfa2code.pythonanywhere.com/{TOKEN}"
-# get a free port from the environment variable PORT
 PORT = int(os.environ.get('PORT', '8000'))
 
 class UserDFA:
@@ -82,7 +83,7 @@ def test_acceptance(update: Update, context):
         
     return ConversationHandler.END
         
-
+app = Flask(__name__)
 def main():
     updater = Updater(token=TOKEN)
     dispatcher = updater.dispatcher
@@ -97,19 +98,19 @@ def main():
     ))
     dispatcher.add_handler(MessageHandler(Filters.text, new_dfa))
 
-    # Set the webhook for the bot
-    updater.start_webhook(
-        listen="0.0.0.0",
-        url_path=TOKEN,
-        webhook_url=WEBHOOK_URL,
-        port=PORT
-    )
+    # delete webhook
+    updater.bot.delete_webhook()
+    # set webhook
     updater.bot.set_webhook(WEBHOOK_URL)
-    updater.idle()
+    # start flask server
+    app.route(f"/{TOKEN}", methods=["POST"])
+    def webhook():
+        jsonstring = request.stream.read().decode("utf-8")
+        update = Update.de_json(json.loads(jsonstring), updater.bot)
+        dispatcher.process_update(update)
+        return "ok"
     
 if __name__ == "__main__":
     main()
-
-
 
 
