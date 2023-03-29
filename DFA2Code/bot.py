@@ -96,7 +96,9 @@ dispatcher.add_handler(ConversationHandler(
 dispatcher.add_handler(MessageHandler(Filters.text, new_dfa))
 
 # Set the webhook for the bot
-updater.start_webhook("0.0.0.0", PORT, TOKEN, webhook_url=WEBHOOK_URL)
+updater.start_webhook(listen="0.0.0.0",
+                          port=int(PORT),
+                          url_path=TOKEN)
 updater.bot.set_webhook(WEBHOOK_URL)
 updater.idle()
     
