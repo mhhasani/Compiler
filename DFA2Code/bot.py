@@ -14,7 +14,7 @@ import os
 TOKEN = "6167343455:AAFUNe4or98G1x3adbTG5v_uU7MbqsYjHl8"
 WEBHOOK_URL = f"https://dfa2code.pythonanywhere.com/{TOKEN}"
 # get a free port from the environment variable PORT
-PORT = int(os.environ.get('PORT', '8443'))
+PORT = int(os.environ.get('PORT', '8000'))
 
 class UserDFA:
     def __init__(self, alphabet, states, start_state, accepting_states, transitions):
@@ -98,7 +98,7 @@ def main():
     dispatcher.add_handler(MessageHandler(Filters.text, new_dfa))
 
     # Set the webhook for the bot
-    updater.start_webhook(url_path=TOKEN)
+    updater.start_webhook(url_path=TOKEN, webhook_url=WEBHOOK_URL, port=PORT)
     updater.bot.set_webhook(WEBHOOK_URL)
     updater.idle()
     
