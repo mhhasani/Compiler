@@ -11,6 +11,10 @@ from telegram.ext import (Updater,
 from main import DFA
 import os
 
+TOKEN = "6167343455:AAFUNe4or98G1x3adbTG5v_uU7MbqsYjHl8"
+WEBHOOK_URL = f"http://dfa2code.pythonanywhere.com/{TOKEN}"
+PORT = int(os.environ.get('PORT', 5000))
+
 class UserDFA:
     def __init__(self, alphabet, states, start_state, accepting_states, transitions):
         self.alphabet = alphabet
@@ -77,10 +81,9 @@ def test_acceptance(update: Update, context):
         
     return ConversationHandler.END
         
-        
-def main():
-    updater = Updater("6167343455:AAFUNe4or98G1x3adbTG5v_uU7MbqsYjHl8")
 
+def main():
+    updater = Updater(token=TOKEN)
     dispatcher = updater.dispatcher
 
     dispatcher.add_handler(CommandHandler("start", start))
@@ -93,11 +96,15 @@ def main():
     ))
     dispatcher.add_handler(MessageHandler(Filters.text, new_dfa))
 
-
-    updater.start_polling()
+    # Set the webhook for the bot
+    updater.start_webhook(listen="0.0.0.0",
+                            port=int(PORT),
+                            url_path=TOKEN)
+    updater.bot.set_webhook(WEBHOOK_URL)
     updater.idle()
-
-main()
+    
+if __name__ == "__main__":
+    main()
 
 
 
