@@ -12,7 +12,7 @@ from main import DFA
 import os
 
 TOKEN = "6167343455:AAFUNe4or98G1x3adbTG5v_uU7MbqsYjHl8"
-WEBHOOK_URL = f"DFAtoCode.pythonanywhere.com/{TOKEN}"
+WEBHOOK_URL = f"https://ce99bot.herokuapp.com/{TOKEN}"
 PORT = os.environ.get('PORT', 5000)
 
 class UserDFA:
