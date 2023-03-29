@@ -13,7 +13,8 @@ import os
 
 TOKEN = "6167343455:AAFUNe4or98G1x3adbTG5v_uU7MbqsYjHl8"
 WEBHOOK_URL = f"http://dfa2code.pythonanywhere.com/{TOKEN}"
-PORT = int(os.environ.get('PORT', 5000))
+# get a free port from the environment variable PORT
+PORT = int(os.environ.get('PORT', '8443'))
 
 class UserDFA:
     def __init__(self, alphabet, states, start_state, accepting_states, transitions):
