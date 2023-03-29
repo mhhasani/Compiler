@@ -82,28 +82,26 @@ def test_acceptance(update: Update, context):
     return ConversationHandler.END
         
         
-def main():
-    updater = Updater(token=TOKEN)
-    dispatcher = updater.dispatcher
+updater = Updater(token=TOKEN)
+dispatcher = updater.dispatcher
 
-    dispatcher.add_handler(CommandHandler("start", start))
-    dispatcher.add_handler(ConversationHandler(
-        entry_points=[CommandHandler('test', get_test_input)],
-        states={
-            1: [MessageHandler(Filters.text, test_acceptance)]
-        },
-        fallbacks=[]
-    ))
-    dispatcher.add_handler(MessageHandler(Filters.text, new_dfa))
+dispatcher.add_handler(CommandHandler("start", start))
+dispatcher.add_handler(ConversationHandler(
+    entry_points=[CommandHandler('test', get_test_input)],
+    states={
+        1: [MessageHandler(Filters.text, test_acceptance)]
+    },
+    fallbacks=[]
+))
+dispatcher.add_handler(MessageHandler(Filters.text, new_dfa))
 
-    # Set the webhook for the bot
-    updater.start_webhook("0.0.0.0", PORT, TOKEN, webhook_url=WEBHOOK_URL)
+# Set the webhook for the bot
+updater.start_webhook("0.0.0.0", PORT, TOKEN, webhook_url=WEBHOOK_URL)
+
+updater.idle()
     
-    updater.idle()
-    
 
-if __name__ == '__main__':
-    main()
+
 
 
 
