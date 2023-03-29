@@ -1,1 +1,1 @@
-web: python bot.py
+web: python DFA2Code/bot.py
