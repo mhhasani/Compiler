@@ -97,10 +97,11 @@ def main():
     dispatcher.add_handler(MessageHandler(Filters.text, new_dfa))
 
     # Set the webhook for the bot
-    updater.start_webhook(listen="0.0.0.0",
-                            port=int(PORT),
-                            url_path=TOKEN)
-    updater.bot.set_webhook(WEBHOOK_URL)
+    # updater.start_webhook(listen="0.0.0.0",
+    #                         port=int(PORT),
+    #                         url_path=TOKEN)
+    # updater.bot.set_webhook(WEBHOOK_URL)
+    updater.start_polling()
     updater.idle()
     
 if __name__ == "__main__":
