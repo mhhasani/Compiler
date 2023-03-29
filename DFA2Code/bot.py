@@ -12,7 +12,7 @@ from main import DFA
 import os
 
 TOKEN = "6167343455:AAFUNe4or98G1x3adbTG5v_uU7MbqsYjHl8"
-WEBHOOK_URL = f"http://dfa2code.pythonanywhere.com/{TOKEN}"
+WEBHOOK_URL = f"https://dfa2code.pythonanywhere.com/{TOKEN}"
 # get a free port from the environment variable PORT
 PORT = int(os.environ.get('PORT', '8443'))
 
