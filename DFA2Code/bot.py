@@ -12,7 +12,7 @@ from main import DFA
 import os
 
 TOKEN = "6167343455:AAFUNe4or98G1x3adbTG5v_uU7MbqsYjHl8"
-WEBHOOK_URL = f"https://ce99bot.herokuapp.com/{TOKEN}"
+WEBHOOK_URL = f"http://dfa2code.pythonanywhere.com/{TOKEN}"
 PORT = int(os.environ.get('PORT', 5000))
 
 class UserDFA:
@@ -81,27 +81,31 @@ def test_acceptance(update: Update, context):
         
     return ConversationHandler.END
         
-        
-updater = Updater(token=TOKEN)
-dispatcher = updater.dispatcher
 
-dispatcher.add_handler(CommandHandler("start", start))
-dispatcher.add_handler(ConversationHandler(
-    entry_points=[CommandHandler('test', get_test_input)],
-    states={
-        1: [MessageHandler(Filters.text, test_acceptance)]
-    },
-    fallbacks=[]
-))
-dispatcher.add_handler(MessageHandler(Filters.text, new_dfa))
+def main():
+    updater = Updater(token=TOKEN)
+    dispatcher = updater.dispatcher
 
-# Set the webhook for the bot
-updater.start_webhook(listen="0.0.0.0",
-                          port=int(PORT),
-                          url_path=TOKEN)
-updater.bot.set_webhook(WEBHOOK_URL)
-updater.idle()
+    dispatcher.add_handler(CommandHandler("start", start))
+    dispatcher.add_handler(ConversationHandler(
+        entry_points=[CommandHandler('test', get_test_input)],
+        states={
+            1: [MessageHandler(Filters.text, test_acceptance)]
+        },
+        fallbacks=[]
+    ))
+    dispatcher.add_handler(MessageHandler(Filters.text, new_dfa))
+
+    # Set the webhook for the bot
+    updater.start_webhook(listen="0.0.0.0",
+                            port=int(PORT),
+                            url_path=TOKEN)
+    updater.bot.set_webhook(WEBHOOK_URL)
+    updater.idle()
     
+if __name__ == "__main__":
+    main()
+        
 
 
 
