@@ -16,6 +16,7 @@ from flask import Flask, request
 TOKEN = "6167343455:AAFUNe4or98G1x3adbTG5v_uU7MbqsYjHl8"
 WEBHOOK_URL = f"https://dfa2code.pythonanywhere.com/{TOKEN}"
 PORT = int(os.environ.get('PORT', '8000'))
+app = Flask(__name__)
 
 class UserDFA:
     def __init__(self, alphabet, states, start_state, accepting_states, transitions):
@@ -83,7 +84,6 @@ def test_acceptance(update: Update, context):
         
     return ConversationHandler.END
         
-app = Flask(__name__)
 def main():
     updater = Updater(token=TOKEN)
     dispatcher = updater.dispatcher
