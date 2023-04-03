@@ -4,9 +4,9 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from antlr4 import *
-from gen.CPP14Lexer import CPP14Lexer
-from gen.CPP14Parser import CPP14Parser 
-from gen.CPP14ParserListener import CPP14ParserListener
+from HW2.gen.CPP14Lexer import CPP14Lexer
+from HW2.gen.CPP14Parser import CPP14Parser
+from HW2.gen.CPP14ParserListener import CPP14ParserListener
 
 
 class ClassNameListener(CPP14ParserListener):

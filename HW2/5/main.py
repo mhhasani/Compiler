@@ -5,7 +5,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(
 
 
 from antlr4 import *
-from gen.CPP14Lexer import CPP14Lexer
+from HW2.gen.CPP14Lexer import CPP14Lexer
 
 def main():
     lexer = CPP14Lexer(FileStream(r"input.cpp"))

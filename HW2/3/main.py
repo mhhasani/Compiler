@@ -4,9 +4,9 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from antlr4 import *
-from gen.CLexer import CLexer
-from gen.CParser import CParser
-from gen.CListener import CListener
+from HW2.gen.CLexer import CLexer
+from HW2.gen.CParser import CParser
+from HW2.gen.CListener import CListener
 
 
 class MyListener(CListener):
