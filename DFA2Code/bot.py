@@ -14,8 +14,7 @@ import json
 from flask import Flask, request
 
 TOKEN = "6167343455:AAFUNe4or98G1x3adbTG5v_uU7MbqsYjHl8"
-WEBHOOK_URL = f"https://dfa2code.pythonanywhere.com/{TOKEN}"
-PORT = int(os.environ.get('PORT', '8000'))
+WEBHOOK_URL = f"https://dfa2code.pythonanywhere.com"
 app = Flask(__name__)
 
 class UserDFA:
@@ -84,33 +83,30 @@ def test_acceptance(update: Update, context):
         
     return ConversationHandler.END
         
-def main():
-    updater = Updater(token=TOKEN)
-    dispatcher = updater.dispatcher
+updater = Updater(token=TOKEN)
+dispatcher = updater.dispatcher
 
-    dispatcher.add_handler(CommandHandler("start", start))
-    dispatcher.add_handler(ConversationHandler(
-        entry_points=[CommandHandler('test', get_test_input)],
-        states={
-            1: [MessageHandler(Filters.text, test_acceptance)]
-        },
-        fallbacks=[]
-    ))
-    dispatcher.add_handler(MessageHandler(Filters.text, new_dfa))
+dispatcher.add_handler(CommandHandler("start", start))
+dispatcher.add_handler(ConversationHandler(
+    entry_points=[CommandHandler('test', get_test_input)],
+    states={
+        1: [MessageHandler(Filters.text, test_acceptance)]
+    },
+    fallbacks=[]
+))
+dispatcher.add_handler(MessageHandler(Filters.text, new_dfa))
 
-    # delete webhook
-    updater.bot.delete_webhook()
-    # set webhook
-    updater.bot.set_webhook(WEBHOOK_URL)
-    # start flask server
-    app.route(f"/{TOKEN}", methods=["POST"])
-    def webhook():
-        jsonstring = request.stream.read().decode("utf-8")
-        update = Update.de_json(json.loads(jsonstring), updater.bot)
-        dispatcher.process_update(update)
-        return "ok"
-    
-if __name__ == "__main__":
-    main()
+# delete webhook
+updater.bot.delete_webhook()
+# set webhook
+updater.bot.set_webhook(WEBHOOK_URL)
+# start flask server
+@app.route("/", methods=["POST"])
+def webhook():
+    update = Update.de_json(request.get_json(force=True), updater.bot)
+    dispatcher.process_update(update)
+    return "ok"
+
+
 
 
