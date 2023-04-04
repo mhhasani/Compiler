@@ -1,10 +1,10 @@
 grammar URLGrammar;
 
-url: protocol domain path?;
+url: protocol domain path '/'?;
 domain: subdomain ('.' subdomain)* ('.' tld) ;
 subdomain: WORD ;
-tld: WORD ;
-path: ('/' segment)*? | '/'?;
+tld: WORD | WORD '/';
+path: ('/' segment)*;
 segment: WORD ;
 protocol: 'http://' | 'https://' ;
 
