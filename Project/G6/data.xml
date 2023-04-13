@@ -1,0 +1,10 @@
+<root>
+    <image>
+        <filename>image1.jpg</filename>
+        <label>Label 1</label>
+    </image>
+    <image>
+        <filename>image2.jpg</filename>
+        <label>Label 2</label>
+    </image>
+</root>
