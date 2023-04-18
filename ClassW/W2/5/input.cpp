@@ -9,6 +9,7 @@ i want to convert this to a single line comment */
 void printHello() {
     cout << "Hello" << endl;
     if (true) {
+/* hi */
         cout << "World" << endl;
     }
 }
@@ -34,7 +35,7 @@ int main() {
     return 0;
 }
 
-/* it is a multi-line comment
-this type of comment is used to describe the code
-and it is not executed by the compiler.
-i want to convert this to a single line comment*/
+// it is a multi-line comment
+// this type of comment is used to describe the code
+// and it is not executed by the compiler.
+// i want to convert this to a single line comment*/

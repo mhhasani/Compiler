@@ -13,10 +13,10 @@ def main():
     token = lexer.nextToken()
     while token.type != token.EOF:
         text = token.text
-        if token.type == lexer.BlockComment:
-            text = "// 99521199 " + text[2:-2]
+        if token.type == lexer.LineComment:
+            text = "// 99521199 " + text[2:]
             text = text.replace("\n", "\n//")
-        elif token.type == lexer.LineComment:
+        elif token.type == lexer.BlockComment:
             text = "/* 99521199 " + text[2:]
         output_stream.write(text)
         token = lexer.nextToken()
