@@ -1,3 +1,8 @@
+import sys
+import os
+# Add the path to the generated parser to the system path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from antlr4 import *
 from gen.Java9Lexer import Java9Lexer as JavaLexer
 from gen.Java9Parser import Java9Parser as JavaParser
@@ -39,4 +44,6 @@ def parse_java_file(filename):
 if __name__ == '__main__':
     filename = 'input.java'
     access_levels = parse_java_file(filename)
-    print(access_levels)
+    for access_level, methods in access_levels.items():
+        print(f'{access_level}: {", ".join(methods)}')
+
