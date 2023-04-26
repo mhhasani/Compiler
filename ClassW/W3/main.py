@@ -1,9 +1,11 @@
 import re
+import os
 from antlr4 import *
 from gen.JavaScriptLexer import JavaScriptLexer
 
 def main():
-    lexer = JavaScriptLexer(FileStream(r"example.js"))
+    file = os.path.join(os.path.dirname(__file__), 'example.js')
+    lexer = JavaScriptLexer(FileStream(file))    
     token = lexer.nextToken()
     while token.type != token.EOF:
         text = token.text
