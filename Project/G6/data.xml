@@ -2,9 +2,11 @@
     <image>
         <filename>image1.jpg</filename>
         <label>Label 1</label>
+        <PhotoImage>image1.jpg</PhotoImage>
     </image>
     <image>
         <filename>image2.jpg</filename>
         <label>Label 2</label>
+        <PhotoImage>image2.jpg</PhotoImage>
     </image>
 </root>
